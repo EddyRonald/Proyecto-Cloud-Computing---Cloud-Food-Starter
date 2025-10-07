@@ -22,8 +22,6 @@ El **frontend (React + Vite + Tailwind)** permite crear, pagar y consultar pedid
 
 ---
 
-## 🧱 Estructura del repositorio
-
 ## 📁 Estructura del repositorio
 
 ```bash
@@ -104,21 +102,21 @@ kind create cluster --name cloud-food --config infra/k8s/kind/config.yaml
 
 
 2) Construir imágenes Docker (desde la raíz del repo)
-
+```bash
 docker build -t order-svc:0.1.0          services/order-svc
 docker build -t payment-svc:0.1.0        services/payment-svc
 docker build -t notification-svc:0.1.0   services/notification-svc
 docker build -t cloud-food-web:0.1.0     web
 
 3) Cargar imágenes en Kind
-
+```bash
 kind load docker-image order-svc:0.1.0 --name cloud-food
 kind load docker-image payment-svc:0.1.0 --name cloud-food
 kind load docker-image notification-svc:0.1.0 --name cloud-food
 kind load docker-image cloud-food-web:0.1.0 --name cloud-food
 
 4) Aplicar manifests de Kubernetes
-
+```bash
 kubectl apply -f infra/k8s/order-svc/deploy.yaml
 kubectl apply -f infra/k8s/payment-svc/deploy.yaml
 kubectl apply -f infra/k8s/notification-svc/deploy.yaml
@@ -127,11 +125,11 @@ kubectl apply -f infra/k8s/gateway/ingress.yaml
 kubectl apply -f infra/k8s/monitoring/         # si está en una carpeta con varios archivos
 
 5) Verificar pods
-
+```bash
 kubectl get pods -A
 
 6) Exponer el Ingress (NGINX)
-
+```bash
 kubectl -n ingress-nginx port-forward svc/ingress-nginx-controller 8080:80
 
 Frontend: http://localhost:8080
