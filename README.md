@@ -97,9 +97,6 @@ cloud-food-starter/
 ### 1) Crear cluster Kind
 
 kind create cluster --name cloud-food --config infra/k8s/kind/config.yaml
-# Si no tienes el archivo de config, basta con:
-# kind create cluster --name cloud-food
-
 
 ### 2) Construir imágenes Docker (desde la raíz del repo)
 
@@ -172,21 +169,21 @@ Invoke-WebRequest -Method GET -Uri http://localhost:8080/orders/1
 
 ## 🔄 Actualizar una imagen (redeploy)
 
-# 1) reconstruir con nuevo tag
+### 1) reconstruir con nuevo tag
 docker build -t order-svc:0.1.1 services/order-svc
 
-# 2) cargar la imagen en kind
+### 2) cargar la imagen en kind
 kind load docker-image order-svc:0.1.1 --name cloud-food
 
-# 3) actualizar el deployment
+### 3) actualizar el deployment
 kubectl set image deploy/order-svc order=order-svc:0.1.1
 
-# 4) vigilar rollout
+### 4) vigilar rollout
 kubectl rollout status deploy/order-svc
 
 ## 👨‍💻 Autor
-Eddy Ronald Choque Condori
-Mauricio Carazas Segovia
-Proyecto: Cloud Food – Microservicios en Kubernetes
-Curso: Cloud Computing – 2025
-"@ | Out-File -Encoding utf8 README.md
+- Eddy Ronald Choque Condori
+- Mauricio Carazas Segovia
+- Proyecto: Cloud Food – Microservicios en Kubernetes
+- Curso: Cloud Computing – 2025
+- "@ | Out-File -Encoding utf8 README.md
