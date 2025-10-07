@@ -1,0 +1,17 @@
+{
+  "$id": "order.paid",
+  "type": "object",
+  "required": [
+    "orderId",
+    "paidAt"
+  ],
+  "properties": {
+    "orderId": {
+      "type": "string"
+    },
+    "paidAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

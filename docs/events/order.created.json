@@ -1,0 +1,40 @@
+{
+  "$id": "order.created",
+  "type": "object",
+  "required": [
+    "orderId",
+    "userId",
+    "items",
+    "createdAt"
+  ],
+  "properties": {
+    "orderId": {
+      "type": "string"
+    },
+    "userId": {
+      "type": "string"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "menuId",
+          "qty"
+        ],
+        "properties": {
+          "menuId": {
+            "type": "string"
+          },
+          "qty": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-svc
+  labels: { app: order-svc }
+spec:
+  replicas: 1
+  selector: { matchLabels: { app: order-svc } }
+  template:
+    metadata:
+      labels: { app: order-svc }
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3000"
+    spec:
+      containers:
+      - name: order
+        image: order-svc:0.1.0
+        imagePullPolicy: IfNotPresent
+        ports: [{ containerPort: 3000 }]
+        env:
+        - name: PORT
+          value: "3000"
+        - name: NATS_URL
+          value: "nats://nats.nats:4222"
+        - name: DATABASE_URL
+          value: "postgresql://postgres:postgres@pg-postgresql.data.svc.cluster.local:5432/orders"
+        readinessProbe:
+          httpGet: { path: /healthz, port: 3000 }
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        livenessProbe:
+          httpGet: { path: /healthz, port: 3000 }
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        resources:
+          requests: { cpu: "50m", memory: "128Mi" }
+          limits: { cpu: "500m", memory: "512Mi" }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-svc
+  labels: { app: order-svc }
+spec:
+  selector: { app: order-svc }
+  ports:
+  - name: http
+    port: 80
+    targetPort: 3000

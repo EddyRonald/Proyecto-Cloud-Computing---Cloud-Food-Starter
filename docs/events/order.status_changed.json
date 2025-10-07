@@ -1,0 +1,21 @@
+{
+  "$id": "order.status_changed",
+  "type": "object",
+  "required": [
+    "orderId",
+    "status",
+    "changedAt"
+  ],
+  "properties": {
+    "orderId": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "changedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

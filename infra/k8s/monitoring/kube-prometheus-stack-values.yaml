@@ -1,0 +1,21 @@
+# Valores mínimos y seguros para una demo local
+grafana:
+  adminUser: admin
+  adminPassword: admin
+  service:
+    type: ClusterIP
+  ingress:
+    enabled: false  # usamos port-forward (más simple)
+
+prometheus:
+  ingress:
+    enabled: false
+  prometheusSpec:
+    retention: 15d
+    # Permitir que recoja ServiceMonitor/PodMonitor sin filtros estrictos del chart
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+
+alertmanager:
+  ingress:
+    enabled: false

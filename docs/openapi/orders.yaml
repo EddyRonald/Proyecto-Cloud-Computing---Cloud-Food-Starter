@@ -1,0 +1,37 @@
+openapi: 3.0.3
+info:
+  title: Orders API
+  version: "0.1.0"
+paths:
+  /orders:
+    post:
+      summary: Create order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId: { type: string }
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      menuId: { type: string }
+                      qty: { type: integer }
+      responses:
+        "201":
+          description: Created
+  /orders/{id}:
+    get:
+      summary: Get order by id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: OK

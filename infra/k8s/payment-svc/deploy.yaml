@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: payment-svc, labels: { app: payment-svc } }
+spec:
+  replicas: 1
+  selector: { matchLabels: { app: payment-svc } }
+  template:
+    metadata: { labels: { app: payment-svc } }
+    spec:
+      containers:
+      - name: payment
+        image: payment-svc:0.1.0
+        ports: [{ containerPort: 3000 }]
+        env:
+        - { name: PORT, value: "3000" }
+        - { name: NATS_URL, value: "nats://nats.nats:4222" }
+        - { name: DATABASE_URL, value: "postgresql://postgres:postgres@pg-postgresql.data.svc.cluster.local:5432/orders" }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: payment-svc, labels: { app: payment-svc } }
+spec:
+  selector: { app: payment-svc }
+  ports:
+  - { name: http, port: 80, targetPort: 3000 }

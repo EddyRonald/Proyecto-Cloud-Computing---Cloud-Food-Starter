@@ -1,0 +1,22 @@
+openapi: 3.0.3
+info:
+  title: Restaurants API
+  version: "0.1.0"
+paths:
+  /restaurants:
+    get:
+      summary: List restaurants
+      responses:
+        "200":
+          description: OK
+  /restaurants/{id}/menus:
+    get:
+      summary: Get menus for a restaurant
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: OK
