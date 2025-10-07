@@ -1,4 +1,3 @@
-@"
 # 🍔 Cloud Food – Microservicios en Kubernetes
 
 Proyecto del curso **Cloud Computing** que implementa una aplicación distribuida basada en **microservicios** orquestados con **Kubernetes** (Kind).  
@@ -25,30 +24,31 @@ El **frontend (React + Vite + Tailwind)** permite crear, pagar y consultar pedid
 
 ## 🧱 Estructura del repositorio
 
+## 📁 Estructura del repositorio
+
+```bash
 cloud-food-starter/
 ├── infra/
-│ └── k8s/
-│ ├── kind/ # Config del cluster Kind
-│ ├── gateway/ # Ingress (NGINX)
-│ ├── monitoring/ # Prometheus + Grafana
-│ ├── order-svc/ # manifests (Deployment/Service)
-│ ├── payment-svc/
-│ ├── notification-svc/
-│ └── web/
+│   └── k8s/
+│       ├── kind/                 # Configuración del cluster Kind
+│       ├── gateway/              # Ingress (NGINX)
+│       ├── monitoring/           # Prometheus + Grafana
+│       ├── order-svc/            # Manifests (Deployment/Service)
+│       ├── payment-svc/
+│       ├── notification-svc/
+│       └── web/
 │
 ├── services/
-│ ├── order-svc/ # código (Node/Express)
-│ ├── payment-svc/
-│ └── notification-svc/
+│   ├── order-svc/                # Código backend (Node/Express)
+│   ├── payment-svc/
+│   └── notification-svc/
 │
-├── web/ # frontend (React + Vite + Tailwind)
-│ ├── src/
-│ ├── public/
-│ └── Dockerfile
+├── web/                          # Frontend (React + Vite + Tailwind)
+│   ├── src/
+│   ├── public/
+│   └── Dockerfile
 │
-└── docs/ # notas auxiliares
-
-
+└── docs/                         # Notas auxiliares o documentación
 
 ---
 
@@ -91,13 +91,10 @@ cloud-food-starter/
 - **Node.js 18+** (para construir frontend/backend)
 - **Helm** (si deseas personalizar el stack de monitoring; no obligatorio para los manifests incluidos)
 
-*Verificadores (opcional): `node -v`, `kubectl version --client`, `kind version`, `helm version`.*
 
 ---
 
 ## 🏗️ Despliegue local paso a paso
-
-> **Nota**: Los comandos asumen Windows PowerShell, pero son equivalentes en macOS/Linux.
 
 ### 1) Crear cluster Kind
 ```bash
