@@ -47,8 +47,8 @@ cloud-food-starter/
 │   └── Dockerfile
 │
 └── docs/                         # Notas auxiliares o documentación
+```
 
----
 
 ## 🧱 Componentes y endpoints
 
@@ -95,28 +95,28 @@ cloud-food-starter/
 ## 🏗️ Despliegue local paso a paso
 
 ### 1) Crear cluster Kind
-```bash
+
 kind create cluster --name cloud-food --config infra/k8s/kind/config.yaml
 # Si no tienes el archivo de config, basta con:
 # kind create cluster --name cloud-food
 
 
-2) Construir imágenes Docker (desde la raíz del repo)
-```bash
+### 2) Construir imágenes Docker (desde la raíz del repo)
+
 docker build -t order-svc:0.1.0          services/order-svc
 docker build -t payment-svc:0.1.0        services/payment-svc
 docker build -t notification-svc:0.1.0   services/notification-svc
 docker build -t cloud-food-web:0.1.0     web
 
-3) Cargar imágenes en Kind
-```bash
+### 3) Cargar imágenes en Kind
+
 kind load docker-image order-svc:0.1.0 --name cloud-food
 kind load docker-image payment-svc:0.1.0 --name cloud-food
 kind load docker-image notification-svc:0.1.0 --name cloud-food
 kind load docker-image cloud-food-web:0.1.0 --name cloud-food
 
-4) Aplicar manifests de Kubernetes
-```bash
+### 4) Aplicar manifests de Kubernetes
+
 kubectl apply -f infra/k8s/order-svc/deploy.yaml
 kubectl apply -f infra/k8s/payment-svc/deploy.yaml
 kubectl apply -f infra/k8s/notification-svc/deploy.yaml
@@ -124,20 +124,20 @@ kubectl apply -f infra/k8s/web/deploy.yaml
 kubectl apply -f infra/k8s/gateway/ingress.yaml
 kubectl apply -f infra/k8s/monitoring/         # si está en una carpeta con varios archivos
 
-5) Verificar pods
-```bash
+### 5) Verificar pods
+
 kubectl get pods -A
 
-6) Exponer el Ingress (NGINX)
-```bash
+### 6) Exponer el Ingress (NGINX)
+
 kubectl -n ingress-nginx port-forward svc/ingress-nginx-controller 8080:80
 
 Frontend: http://localhost:8080
 API routes (gateway): http://localhost:8080/orders, http://localhost:8080/payments …
 
-📊 Monitoreo y métricas
+## 📊 Monitoreo y métricas
 
-Prometheus
+## Prometheus
 
 kubectl -n monitoring port-forward svc/mon-kube-prometheus-stack-prometheus 9090:9090
 
@@ -146,7 +146,7 @@ UI: http://localhost:9090
 Consulta ejemplo (PromQL):
 sum(rate(http_requests_total{app="order-svc",method="POST",path="/orders"}[1m]))
 
-Grafana
+## Grafana
 
 kubectl -n monitoring port-forward svc/mon-grafana 3000:80
 
@@ -154,23 +154,23 @@ Panel: http://localhost:3000
 Usuario: admin | Contraseña: prom-operator
 Dashboards sugeridos: Kubernetes / Compute Resources (Cluster/Namespace/Pod)
 
-🧪 Probar desde la línea de comandos
+## 🧪 Probar desde la línea de comandos
 
-Crear pedido
+### Crear pedido
 
 $body = @{ userId = "u1"; items = @(@{ menuId = "m1"; qty = 2 }) } | ConvertTo-Json
 Invoke-WebRequest -Method POST -Uri http://localhost:8080/orders -ContentType 'application/json' -Body $body
 
-Pagar pedido (ejemplo con orderId=1)
+### Pagar pedido (ejemplo con orderId=1)
 
 $pay = @{ orderId = 1; amount = 25.5; method = "CARD" } | ConvertTo-Json
 Invoke-WebRequest -Method POST -Uri http://localhost:8080/payments -ContentType 'application/json' -Body $pay
 
-Consultar pedido
+### Consultar pedido
 
 Invoke-WebRequest -Method GET -Uri http://localhost:8080/orders/1
 
-🔄 Actualizar una imagen (redeploy)
+## 🔄 Actualizar una imagen (redeploy)
 
 # 1) reconstruir con nuevo tag
 docker build -t order-svc:0.1.1 services/order-svc
@@ -184,7 +184,7 @@ kubectl set image deploy/order-svc order=order-svc:0.1.1
 # 4) vigilar rollout
 kubectl rollout status deploy/order-svc
 
-👨‍💻 Autor
+## 👨‍💻 Autor
 Eddy Ronald Choque Condori
 Mauricio Carazas Segovia
 Proyecto: Cloud Food – Microservicios en Kubernetes
